@@ -52,9 +52,10 @@ class OAuth2Helper {
       this.accessTokenParams,
       this.webAuthClient,
       this.webAuthOpts}) {
-    this.tokenStorage = tokenStorage ?? secureStorage
-        ? TokenStorage(client.tokenUrl, storage: SecureStorage())
-        : TokenStorage(client.tokenUrl);
+    this.tokenStorage = tokenStorage ??
+        (secureStorage
+            ? TokenStorage(client.tokenUrl, storage: SecureStorage())
+            : TokenStorage(client.tokenUrl));
   }
 
   /// Sets the proper parameters for requesting an authorization token.
