@@ -6,6 +6,8 @@ import 'package:oauth2_client/oauth2_response.dart';
 import 'package:oauth2_client/src/base_web_auth.dart';
 import 'package:oauth2_client/src/token_storage.dart';
 
+import 'src/secure_storage.dart';
+
 /// Helper class for simplifying OAuth2 authorization process.
 ///
 /// Tokens are stored in a secure storage.
@@ -44,12 +46,15 @@ class OAuth2Helper {
       this.enablePKCE = true,
       this.enableState = true,
       tokenStorage,
+      bool secureStorage = false,
       this.afterAuthorizationCodeCb,
       this.authCodeParams,
       this.accessTokenParams,
       this.webAuthClient,
       this.webAuthOpts}) {
-    this.tokenStorage = tokenStorage ?? TokenStorage(client.tokenUrl);
+    this.tokenStorage = tokenStorage ?? secureStorage
+        ? TokenStorage(client.tokenUrl, storage: SecureStorage())
+        : TokenStorage(client.tokenUrl);
   }
 
   /// Sets the proper parameters for requesting an authorization token.
