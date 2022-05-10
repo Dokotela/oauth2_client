@@ -1,17 +1,16 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:oauth2_client/access_token_response.dart';
 
 import 'base_storage.dart';
-import 'storage.dart'
-    // ignore: uri_does_not_exist
-    if (dart.library.io) 'secure_storage.dart'
-    // ignore: uri_does_not_exist
-    if (dart.library.html) 'browser_storage.dart';
+import 'secure_storage.dart' as secure;
+import 'browser_storage.dart' as browser;
 
 class TokenStorage {
   String key;
 
-  BaseStorage storage = createStorage();
+  BaseStorage storage =
+      kIsWeb ? browser.createStorage() : secure.createStorage();
 
   TokenStorage(this.key, {BaseStorage? storage}) {
     if (storage != null) this.storage = storage;
